@@ -8,5 +8,5 @@ export interface Product {
 
 export interface ProductCarted {
   id: string
-  quantity: string
+  quantity: number
 }
