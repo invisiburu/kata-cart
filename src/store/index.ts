@@ -1,5 +1,5 @@
 import { createLogger, createStore } from 'vuex'
-import cart from './cart'
+import cart from './cart.store'
 
 const isDebug = process.env.NODE_ENV !== 'production'
 
