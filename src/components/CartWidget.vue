@@ -2,7 +2,13 @@
   <div class="cart-widget">
     <template v-for="item in items" :key="item.id">
       <div class="cart-widget__item mt-4">
-        {{ item.name }} - {{ item.quantity }}
+        <p>
+          {{ item.name }} x{{ item.quantity }} - {{ item.priceTotal }}
+          <template v-if="item.priceDiscount">
+            <span class="cr-g">(-{{ item.priceDiscount }})</span>
+          </template>
+          gold
+        </p>
       </div>
     </template>
     <template v-if="items && items.length > 0">

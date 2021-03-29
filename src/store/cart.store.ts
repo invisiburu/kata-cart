@@ -1,4 +1,9 @@
+import useFloatFix from '@/composables/useFloatFix'
+import { useProductPricesCalculator } from '@/composables/useProductPricesCalculator'
 import { Product, ProductCarted } from '@/types/types'
+
+const { floatFix } = useFloatFix()
+const { calcPrices } = useProductPricesCalculator()
 
 interface CartState {
   items: ProductCarted[]
@@ -24,10 +29,11 @@ export default {
       const idx = state.items.findIndex((el) => el.id === product.id)
       if (idx !== -1) {
         const item = state.items[idx]
-        item.quantity = incr(item.quantity, item.step)
-        state.items[idx] = item
+        const quantity = floatFix(item.quantity + (item.step || 1))
+        console.log(quantity)
+        state.items[idx] = calcPrices(item, quantity)
       } else {
-        state.items.push({ ...product, quantity: 1 })
+        state.items.push(calcPrices(product, 1))
       }
     },
 
@@ -48,15 +54,11 @@ export default {
       const item = state.items.find((el) => el.id === payload.id)
       if (!item) return
 
-      item.quantity = incr(item.quantity, payload.increment)
+      item.quantity = floatFix(item.quantity + payload.increment)
     },
 
     removeItem(state: CartState, id: string): void {
       state.items = state.items.filter((el) => el.id !== id)
     },
   },
-}
-
-function incr(base: number, amount = 1): number {
-  return Number((base + amount).toFixed(2))
 }

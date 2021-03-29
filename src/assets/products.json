@@ -7,5 +7,12 @@
     "unit": "piece",
     "step": 1
   },
-  { "id": "3", "name": "Herbals", "price": 300, "unit": "kg", "step": 0.1 }
+  { "id": "3", "name": "Herbals", "price": 300, "unit": "kg", "step": 0.1 },
+  {
+    "id": "4",
+    "name": "Mana fruit",
+    "price": 15,
+    "unit": "piece",
+    "discount": { "type": "static", "var": 0.3 }
+  }
 ]
