@@ -4,7 +4,9 @@
       <p>
         {{ item.name }} - {{ item.price }} gold / {{ item.unit || 'piece' }}
       </p>
-      <button type="button" @click="addItem(item)">Add</button>
+      <button class="btn-underlined" type="button" @click="addItem(item)">
+        Add
+      </button>
     </div>
   </div>
 </template>

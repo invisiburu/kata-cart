@@ -4,7 +4,9 @@
       <div class="cart-widget__item">{{ item.name }} - {{ item.quantity }}</div>
     </template>
     <template v-if="items && items.length > 0">
-      <button type="button" @click="checkout()">Checkout</button>
+      <button class="btn-framed mt-8" type="button" @click="checkout()">
+        Checkout
+      </button>
     </template>
     <template v-else>
       <p class="cart-widget__empty-txt">Empty cart</p>
