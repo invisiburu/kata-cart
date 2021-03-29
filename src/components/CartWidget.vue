@@ -1,7 +1,9 @@
 <template>
   <div class="cart-widget">
     <template v-for="item in items" :key="item.id">
-      <div class="cart-widget__item">{{ item.name }} - {{ item.quantity }}</div>
+      <div class="cart-widget__item mt-4">
+        {{ item.name }} - {{ item.quantity }}
+      </div>
     </template>
     <template v-if="items && items.length > 0">
       <button class="btn-framed mt-8" type="button" @click="checkout()">
