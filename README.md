@@ -13,6 +13,7 @@ calculated within a cart.
 - Progressive (3 items -20%, 6 items -25%)
 - three for a dollar (custom price for purchasing dedicated amount)
 - 10$ for 1 kilo (pricing for fractial amounts, like 0.25 kilo, 1.5 kilo)
+- Any second good -40%
 
 # Installation and run
 
