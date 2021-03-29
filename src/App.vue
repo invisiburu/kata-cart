@@ -8,15 +8,12 @@
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  padding: 3rem;
 }
 
 #nav {
-  padding: 30px;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 #nav a {

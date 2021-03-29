@@ -2,11 +2,10 @@ export interface Product {
   id: string
   name: string
   price: number
-  unit?: 'kg'
+  unit: 'kg' | 'piece' | string
   step?: number
 }
 
-export interface ProductCarted {
-  id: string
+export interface ProductCarted extends Product {
   quantity: number
 }

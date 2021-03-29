@@ -1,4 +1,4 @@
-import { ProductCarted } from '@/types/types'
+import { Product, ProductCarted } from '@/types/types'
 
 interface CartState {
   items: ProductCarted[]
@@ -20,8 +20,15 @@ export default {
   actions: {},
 
   mutations: {
-    addItem(state: CartState, id: string): void {
-      state.items.push({ id, quantity: 1 })
+    addItem(state: CartState, product: Product): void {
+      const idx = state.items.findIndex((el) => el.id === product.id)
+      if (idx !== -1) {
+        const item = state.items[idx]
+        item.quantity = incr(item.quantity, item.step)
+        state.items[idx] = item
+      } else {
+        state.items.push({ ...product, quantity: 1 })
+      }
     },
 
     setItemQuantity(
@@ -41,11 +48,15 @@ export default {
       const item = state.items.find((el) => el.id === payload.id)
       if (!item) return
 
-      item.quantity += payload.increment
+      item.quantity = incr(item.quantity, payload.increment)
     },
 
     removeItem(state: CartState, id: string): void {
       state.items = state.items.filter((el) => el.id !== id)
     },
   },
+}
+
+function incr(base: number, amount = 1): number {
+  return Number((base + amount).toFixed(2))
 }

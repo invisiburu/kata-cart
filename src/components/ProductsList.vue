@@ -1,40 +1,44 @@
 <template>
-  <div class="goods-list">
-    <div v-for="item in goods" :key="item.id" class="goods-list__row">
-      {{ item.name }} - {{ item.price }} gold / {{ item.unit || 'piece' }}
+  <div class="products-list">
+    <div v-for="item in products" :key="item.id" class="products-list__row">
+      <p>
+        {{ item.name }} - {{ item.price }} gold / {{ item.unit || 'piece' }}
+      </p>
       <button type="button" @click="addItem(item)">Add</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { Product } from '@/types/types'
-import goods from '@/assets/goods.json'
+import { defineComponent, onMounted } from 'vue'
+import useCart from '@/composables/useCart'
+import useProducts from '@/composables/useProducts'
 
 export default defineComponent({
   setup() {
-    const addItem = (el: Product) => console.log(el)
+    const { products, loadProducts } = useProducts()
+    const { addItem } = useCart()
+
+    onMounted(loadProducts)
 
     return {
-      goods,
+      products,
       addItem,
     }
   },
 })
 </script>
 
-<style scoped>
-.goods-list {
+<style scoped lang="scss">
+.products-list {
   display: grid;
-  gap: 8px;
+  gap: 0.8rem;
   width: 100%;
-  max-width: 400px;
-  text-align: start;
 }
 
-.goods-list__row {
+.products-list__row {
   display: flex;
+  align-items: center;
   flex-direction: row;
   justify-content: space-between;
 }
