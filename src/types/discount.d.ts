@@ -8,4 +8,4 @@ export interface DiscountStrategyStatic extends DiscountStrategy {
   var: number
 }
 
-export type DiscountStrategy = DiscountStrategyStatic | DiscountStrategyBase
+export type DiscountStrategy = DiscountStrategyStatic

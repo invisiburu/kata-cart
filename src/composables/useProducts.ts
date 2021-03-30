@@ -21,5 +21,5 @@ export default function useProducts(): {
 }
 
 async function getProducts(): Promise<Product[]> {
-  return (await import('@/assets/products.json')).default
+  return <Product[]>(await import('@/assets/products.json')).default
 }

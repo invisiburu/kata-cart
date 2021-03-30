@@ -5,7 +5,9 @@
         <p>
           {{ item.name }} x{{ item.quantity }} - {{ item.priceTotal }}
           <template v-if="item.priceDiscount">
-            <span class="cr-g">(-{{ item.priceDiscount }})</span>
+            <span class="cr-g">
+              ({{ item.priceBeforeDiscount }} - {{ item.priceDiscount }})
+            </span>
           </template>
           gold
         </p>

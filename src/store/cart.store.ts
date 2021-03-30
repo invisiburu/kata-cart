@@ -1,9 +1,6 @@
-import useFloatFix from '@/composables/useFloatFix'
-import { useProductPricesCalculator } from '@/composables/useProductPricesCalculator'
+import { floatFix } from '@/helpers/numbers'
+import { calcProductCarted } from '@/helpers/productCartedCalculator'
 import { Product, ProductCarted } from '@/types/types'
-
-const { floatFix } = useFloatFix()
-const { calcPrices } = useProductPricesCalculator()
 
 interface CartState {
   items: ProductCarted[]
@@ -31,9 +28,9 @@ export default {
         const item = state.items[idx]
         const quantity = floatFix(item.quantity + (item.step || 1))
         console.log(quantity)
-        state.items[idx] = calcPrices(item, quantity)
+        state.items[idx] = calcProductCarted(item, quantity)
       } else {
-        state.items.push(calcPrices(product, 1))
+        state.items.push(calcProductCarted(product, 1))
       }
     },
 
