@@ -43,8 +43,8 @@ export default defineComponent({
 
 .products-list__row {
   display: flex;
-  align-items: center;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
 }
 </style>

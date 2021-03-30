@@ -5,9 +5,9 @@ import { useStore } from 'vuex'
 export default function useCart(): {
   items: ComputedRef<ProductCarted[]>
   addItem: (id: Product) => void
-  setItemQuantity: (id: string, quantity: number) => void
-  incrementItemQuantity: (id: string, increment: number) => void
-  removeItem: (id: string) => void
+  incrementItem: (product: Product | ProductCarted) => void
+  decrementItem: (product: Product | ProductCarted) => void
+  removeItem: (product: Product | ProductCarted) => void
 } {
   const store = useStore()
 
@@ -18,16 +18,18 @@ export default function useCart(): {
       store.commit('cart/addItem', product)
     },
 
-    setItemQuantity: (id: string, quantity: number) => {
-      store.commit('cart/setItemQuantity', { id, quantity })
+    incrementItem: (product: Product | ProductCarted) => {
+      const { id, step = 1 } = product
+      store.commit('cart/incrementItemQuantity', { id, increment: step })
     },
 
-    incrementItemQuantity: (id: string, increment: number) => {
-      store.commit('cart/incrementItemQuantity', { id, increment })
+    decrementItem: (product: Product | ProductCarted) => {
+      const { id, step = 1 } = product
+      store.commit('cart/incrementItemQuantity', { id, increment: -step })
     },
 
-    removeItem: (id: string) => {
-      store.commit('cart/removeItem', id)
+    removeItem: (product: Product | ProductCarted) => {
+      store.commit('cart/removeItem', product.id)
     },
   }
 }

@@ -26,32 +26,27 @@ export default {
       const idx = state.items.findIndex((el) => el.id === product.id)
       if (idx !== -1) {
         const item = state.items[idx]
-        const quantity = floatFix(item.quantity + (item.step || 1))
-        console.log(quantity)
-        state.items[idx] = calcProductCarted(item, quantity)
+        state.items[idx] = calcProductCarted(item, item.quantity + 1)
       } else {
         state.items.push(calcProductCarted(product, 1))
       }
-    },
-
-    setItemQuantity(
-      state: CartState,
-      payload: { id: string; quantity: number }
-    ): void {
-      const item = state.items.find((el) => el.id === payload.id)
-      if (!item) return
-
-      item.quantity = payload.quantity
     },
 
     incrementItemQuantity(
       state: CartState,
       payload: { id: string; increment: number }
     ): void {
-      const item = state.items.find((el) => el.id === payload.id)
-      if (!item) return
+      const idx = state.items.findIndex((el) => el.id === payload.id)
+      if (idx === -1) return
 
-      item.quantity = floatFix(item.quantity + payload.increment)
+      const item = state.items[idx]
+      const newQuantity = floatFix(item.quantity + payload.increment)
+
+      if (newQuantity <= 0) {
+        state.items = state.items.filter((el) => el.id !== payload.id)
+      } else {
+        state.items[idx] = calcProductCarted(item, newQuantity)
+      }
     },
 
     removeItem(state: CartState, id: string): void {

@@ -1,8 +1,8 @@
 <template>
   <div class="cart-widget">
     <template v-for="item in items" :key="item.id">
-      <div class="cart-widget__item mt-4">
-        <p>
+      <div class="cart-widget__item">
+        <p class="cart-widget__item-txt">
           {{ item.name }} x{{ item.quantity }}
           {{ item.unit === 'piece' ? '' : item.unit }} -
           {{ item.priceTotal }} gold
@@ -12,6 +12,27 @@
             </span>
           </template>
         </p>
+        <button
+          class="cart-widget__item-btn btn-framed"
+          type="button"
+          @click="decrementItem(item)"
+        >
+          -
+        </button>
+        <button
+          class="cart-widget__item-btn btn-framed"
+          type="button"
+          @click="incrementItem(item)"
+        >
+          +
+        </button>
+        <button
+          class="cart-widget__item-btn btn-framed"
+          type="button"
+          @click="removeItem(item)"
+        >
+          Del
+        </button>
       </div>
     </template>
     <template v-if="items && items.length > 0">
@@ -31,16 +52,38 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {
-    const { items } = useCart()
+    const { items, incrementItem, decrementItem, removeItem } = useCart()
 
     const checkout = () => console.log('CHECKOUT')
 
-    return { items, checkout }
+    return { items, incrementItem, decrementItem, removeItem, checkout }
   },
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.cart-widget__item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  & + & {
+    margin-top: 0.8rem;
+  }
+}
+
+.cart-widget__item-txt {
+  flex: 1;
+}
+
+.cart-widget__item-btn {
+  width: 100%;
+  max-width: 3.6rem;
+  line-height: 3.2rem;
+  padding: 0;
+  margin-left: 0.8rem;
+}
+
 .cart-widget__empty-txt {
   color: var(--clr__gray);
 }
