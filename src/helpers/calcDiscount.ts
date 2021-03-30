@@ -19,5 +19,5 @@ function calcDiscountStatic(
   priceBeforeDiscount: number,
   strategy: DiscountStrategyStatic
 ) {
-  return Math.round(priceBeforeDiscount * strategy.var)
+  return priceBeforeDiscount * strategy.var
 }

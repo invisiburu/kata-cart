@@ -18,7 +18,7 @@
   {
     "id": "3",
     "name": "Herbals",
-    "price": 300,
+    "price": 25,
     "unit": "kg",
     "step": 0.1,
     "discount": null

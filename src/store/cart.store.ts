@@ -61,9 +61,9 @@ export default {
 }
 
 function calcProductCarted(product: Product, quantity: number): ProductCarted {
-  const beforeDiscount = floatFix(quantity * product.price)
-  const discount = calcDiscount(beforeDiscount, product.discount)
-  const total = floatFix(beforeDiscount - discount)
+  const beforeDiscount = Math.round(quantity * product.price)
+  const discount = Math.round(calcDiscount(beforeDiscount, product.discount))
+  const total = Math.round(beforeDiscount - discount)
 
   return {
     ...product,
