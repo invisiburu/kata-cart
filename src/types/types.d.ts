@@ -14,5 +14,5 @@ export interface ProductCarted extends Product {
   quantity: number
   priceBeforeDiscount: number
   priceDiscount: number
-  priceTotal: number
+  priceAfterDiscount: number
 }

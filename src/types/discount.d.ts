@@ -8,9 +8,17 @@ export interface DiscountStrategyStatic extends DiscountStrategy {
   var: number
 }
 
+export interface DiscountStrategyProgressive extends DiscountStrategy {
+  type: 'progressive'
+  var: [number, number][]
+}
+
 export interface DiscountStrategyOneFree extends DiscountStrategy {
   type: 'oneFree'
   var: number | number[]
 }
 
-export type DiscountStrategy = DiscountStrategyStatic | DiscountStrategyOneFree
+export type DiscountStrategy =
+  | DiscountStrategyStatic
+  | DiscountStrategyProgressive
+  | DiscountStrategyOneFree

@@ -5,7 +5,7 @@
         <p class="cart-widget__item-txt">
           {{ item.name }} x{{ item.quantity }}
           {{ item.unit === 'piece' ? '' : item.unit }} -
-          {{ item.priceTotal }} gold
+          {{ item.priceAfterDiscount }} gold
           <template v-if="item.priceDiscount">
             <span class="cr-g">
               ({{ item.priceBeforeDiscount }} - {{ item.priceDiscount }})

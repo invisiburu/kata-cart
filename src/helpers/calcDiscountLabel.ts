@@ -1,7 +1,8 @@
 import {
   DiscountStrategy,
-  DiscountStrategyOneFree,
   DiscountStrategyStatic,
+  DiscountStrategyProgressive,
+  DiscountStrategyOneFree,
 } from '@/types/discount'
 
 export function calcDiscountLabel(strategy?: DiscountStrategy): string {
@@ -10,6 +11,9 @@ export function calcDiscountLabel(strategy?: DiscountStrategy): string {
   switch (strategy.type) {
     case 'static':
       return calcDiscountLabelStatic(strategy)
+
+    case 'progressive':
+      return calcDiscountLabelProgressive(strategy)
 
     case 'oneFree':
       return calcDiscountLabelOneFree(strategy)
@@ -21,6 +25,14 @@ export function calcDiscountLabel(strategy?: DiscountStrategy): string {
 
 function calcDiscountLabelStatic(strategy: DiscountStrategyStatic): string {
   return `-${strategy.var * 100}%`
+}
+
+function calcDiscountLabelProgressive(
+  strategy: DiscountStrategyProgressive
+): string {
+  return strategy.var
+    .map(([qty, amount]) => `${qty}+: -${amount * 100}%`)
+    .join(', ')
 }
 
 function calcDiscountLabelOneFree(strategy: DiscountStrategyOneFree): string {

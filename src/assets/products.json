@@ -45,5 +45,30 @@
     "price": 15,
     "unit": "piece",
     "discount": { "type": "static", "var": 0.3 }
+  },
+  {
+    "id": "302",
+    "name": "Fairy horn",
+    "price": 55,
+    "unit": "piece",
+    "discount": {
+      "type": "progressive",
+      "var": [
+        [3, 0.2],
+        [6, 0.25],
+        [9, 0.3]
+      ]
+    }
+  },
+  {
+    "id": "303",
+    "name": "Skull dust",
+    "price": 30,
+    "unit": "kg",
+    "step": 0.25,
+    "discount": {
+      "type": "progressive",
+      "var": [[5, 0.3]]
+    }
   }
 ]
