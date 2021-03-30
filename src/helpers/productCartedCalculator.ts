@@ -38,5 +38,5 @@ function calcDiscountStatic(
   priceBeforeDiscount: number,
   strategy: DiscountStrategyStatic
 ) {
-  return floatFix(priceBeforeDiscount * strategy.var)
+  return Math.round(priceBeforeDiscount * strategy.var)
 }
