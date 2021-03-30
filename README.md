@@ -7,8 +7,9 @@ pricing and various discount programs, how the discounts shown and
 calculated within a cart.
 
 ## Available discount programs:
-- 1 + 1 = 3
-- 1 + 1 = 3 but for the first occurrence only
+
+- 1 + 1 = 1
+- 1 + 1 = 1 but for the first occurrence only
 - Static (like -10%)
 - Progressive (3 items -20%, 6 items -25%)
 - three for a dollar (custom price for purchasing dedicated amount)
