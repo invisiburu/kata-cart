@@ -1,7 +1,7 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/">Shop</router-link> |
+    <router-link :to="{ name: 'Checkout' }">Checkout</router-link>
   </div>
   <router-view />
 </template>
@@ -9,6 +9,8 @@
 <style>
 #app {
   padding: 3rem;
+  max-width: 1200px;
+  margin: auto;
 }
 
 #nav {
