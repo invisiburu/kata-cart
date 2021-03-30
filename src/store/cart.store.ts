@@ -1,5 +1,5 @@
+import { calcDiscount } from '@/helpers/calcDiscount'
 import { floatFix } from '@/helpers/numbers'
-import { calcProductCarted } from '@/helpers/productCartedCalculator'
 import { Product, ProductCarted } from '@/types/types'
 
 interface CartState {
@@ -58,4 +58,18 @@ export default {
       state.items = state.items.filter((el) => el.id !== id)
     },
   },
+}
+
+function calcProductCarted(product: Product, quantity: number): ProductCarted {
+  const beforeDiscount = floatFix(quantity * product.price)
+  const discount = calcDiscount(beforeDiscount, product.discount)
+  const total = floatFix(beforeDiscount - discount)
+
+  return {
+    ...product,
+    quantity,
+    priceBeforeDiscount: beforeDiscount,
+    priceDiscount: discount,
+    priceTotal: total,
+  }
 }

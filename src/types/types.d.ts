@@ -7,6 +7,7 @@ export interface Product {
   unit: 'kg' | 'piece' | string
   step?: number
   discount?: DiscountStrategy
+  discountLabel?: string
 }
 
 export interface ProductCarted extends Product {
