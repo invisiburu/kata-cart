@@ -57,7 +57,7 @@ export default {
 
 function calcProductCarted(product: Product, quantity: number): ProductCarted {
   const beforeDiscount = Math.round(quantity * product.price)
-  const discount = Math.round(calcDiscount(beforeDiscount, product.discount))
+  const discount = Math.round(calcDiscount(beforeDiscount, product, quantity))
   const total = Math.round(beforeDiscount - discount)
 
   return {

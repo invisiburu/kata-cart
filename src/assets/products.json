@@ -1,6 +1,6 @@
 [
   {
-    "id": "1",
+    "id": "100",
     "name": "Sword",
     "price": 250,
     "unit": "piece",
@@ -8,7 +8,23 @@
     "discount": null
   },
   {
-    "id": "2",
+    "id": "101",
+    "name": "Shield",
+    "price": 200,
+    "unit": "piece",
+    "step": 1,
+    "discount": { "type": "oneFree", "var": 3 }
+  },
+  {
+    "id": "102",
+    "name": "Helmet",
+    "price": 180,
+    "unit": "piece",
+    "step": 1,
+    "discount": { "type": "oneFree", "var": [3, 2] }
+  },
+  {
+    "id": "200",
     "name": "Health potion",
     "price": 10,
     "unit": "piece",
@@ -16,7 +32,7 @@
     "discount": null
   },
   {
-    "id": "3",
+    "id": "300",
     "name": "Herbals",
     "price": 25,
     "unit": "kg",
@@ -24,7 +40,7 @@
     "discount": null
   },
   {
-    "id": "4",
+    "id": "301",
     "name": "Mana fruit",
     "price": 15,
     "unit": "piece",

@@ -8,4 +8,9 @@ export interface DiscountStrategyStatic extends DiscountStrategy {
   var: number
 }
 
-export type DiscountStrategy = DiscountStrategyStatic
+export interface DiscountStrategyOneFree extends DiscountStrategy {
+  type: 'oneFree'
+  var: number | number[]
+}
+
+export type DiscountStrategy = DiscountStrategyStatic | DiscountStrategyOneFree
