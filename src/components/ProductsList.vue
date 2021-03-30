@@ -2,7 +2,7 @@
   <div class="products-list">
     <div v-for="item in products" :key="item.id" class="products-list__row">
       <p>
-        {{ item.name }} - {{ item.price }} gold / {{ item.unit || 'piece' }}
+        {{ item.name }} - {{ item.price }} gold / {{ item.unit }}
         <template v-if="item.discountLabel">
           <span class="cr-g">({{ item.discountLabel }})</span>
         </template>

@@ -3,7 +3,9 @@
     <template v-for="item in items" :key="item.id">
       <div class="cart-widget__item mt-4">
         <p>
-          {{ item.name }} x{{ item.quantity }} - {{ item.priceTotal }} gold
+          {{ item.name }} x{{ item.quantity }}
+          {{ item.unit === 'piece' ? '' : item.unit }} -
+          {{ item.priceTotal }} gold
           <template v-if="item.priceDiscount">
             <span class="cr-g">
               ({{ item.priceBeforeDiscount }} - {{ item.priceDiscount }})
