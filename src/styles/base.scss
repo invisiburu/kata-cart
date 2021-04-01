@@ -1,6 +1,7 @@
 :root {
   --clr__textDefault: #333333;
   --clr__gray: gray;
+  --clr__lightGray: lightGray;
 }
 
 button {
@@ -13,10 +14,6 @@ button {
     padding: 0.4rem 1.2rem;
     border: 2px solid currentColor;
   }
-}
-
-.mt-8 {
-  margin-top: 0.8rem;
 }
 
 .cr-g {

@@ -41,7 +41,14 @@
       </div>
     </template>
     <template v-if="items && items.length > 0">
-      <button class="btn-framed mt-8" type="button" @click="checkout()">
+      <div class="cart-widget__total">
+        Total: {{ total.quantity }} items -
+        <span>{{ total.priceAfterDiscount }}</span>
+        <span class="cr-g">
+          ({{ total.priceBeforeDiscount }} - {{ total.priceDiscount }})
+        </span>
+      </div>
+      <button class="btn-framed" type="button" @click="checkout()">
         Checkout
       </button>
     </template>
@@ -57,11 +64,11 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {
-    const { items, incrementItem, decrementItem, removeItem } = useCart()
+    const { items, total, incrementItem, decrementItem, removeItem } = useCart()
 
     const checkout = () => console.log('CHECKOUT')
 
-    return { items, incrementItem, decrementItem, removeItem, checkout }
+    return { items, total, incrementItem, decrementItem, removeItem, checkout }
   },
 })
 </script>
@@ -87,6 +94,13 @@ export default defineComponent({
   line-height: 3.2rem;
   padding: 0;
   margin-left: 0.8rem;
+}
+
+.cart-widget__total {
+  margin-top: 1.6rem;
+  margin-bottom: 1.6rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--clr__lightGray);
 }
 
 .cart-widget__empty-txt {

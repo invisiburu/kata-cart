@@ -1,9 +1,11 @@
 import { Product, ProductCarted } from '@/types/types'
 import { computed, ComputedRef } from 'vue'
 import { useStore } from 'vuex'
+import { CartStateTotal } from '@/store/cart.store'
 
 export default function useCart(): {
   items: ComputedRef<ProductCarted[]>
+  total: ComputedRef<CartStateTotal>
   addItem: (id: Product) => void
   incrementItem: (product: Product | ProductCarted) => void
   decrementItem: (product: Product | ProductCarted) => void
@@ -13,6 +15,7 @@ export default function useCart(): {
 
   return {
     items: computed(() => store.getters['cart/items']),
+    total: computed(() => store.getters['cart/total']),
 
     addItem: (product: Product) => {
       store.commit('cart/addItem', product)
