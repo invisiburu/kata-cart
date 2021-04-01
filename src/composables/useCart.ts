@@ -14,7 +14,7 @@ const items = ref<ProductCarted[]>([])
 const total = computed<CartTotal>(() => _calcCartTotal(items.value))
 
 function addItem(product: Product): ProductCarted {
-  const incrementedItem = incrementItem(product)
+  const incrementedItem = incrementItem(product, 1)
   if (incrementedItem) return incrementedItem
 
   items.value.push(_calcProductCarted(product, 1))
