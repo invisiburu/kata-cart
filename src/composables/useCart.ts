@@ -1,38 +1,99 @@
 import { Product, ProductCarted } from '@/types/types'
-import { computed, ComputedRef } from 'vue'
-import { useStore } from 'vuex'
-import { CartStateTotal } from '@/store/cart.store'
+import { computed, ComputedRef, DeepReadonly, readonly, Ref, ref } from 'vue'
+import { calcDiscount } from '@/helpers/calcDiscount'
+import { floatFix } from '@/helpers/numbers'
 
-export default function useCart(): {
-  items: ComputedRef<ProductCarted[]>
-  total: ComputedRef<CartStateTotal>
-  addItem: (id: Product) => void
-  incrementItem: (product: Product | ProductCarted) => void
-  decrementItem: (product: Product | ProductCarted) => void
-  removeItem: (product: Product | ProductCarted) => void
-} {
-  const store = useStore()
+interface CartTotal {
+  quantity: number
+  priceBeforeDiscount: number
+  priceDiscount: number
+  priceAfterDiscount: number
+}
+
+const items = ref<ProductCarted[]>([])
+const total = computed<CartTotal>(() => _calcCartTotal(items.value))
+
+function addItem(product: Product): ProductCarted {
+  const incrementedItem = incrementItem(product)
+  if (incrementedItem) return incrementedItem
+
+  items.value.push(_calcProductCarted(product, 1))
+  return items.value[items.value.length - 1]
+}
+
+function incrementItem(
+  product: Product,
+  amount: number = product.step || 1
+): ProductCarted | null {
+  const idx = items.value.findIndex((el) => el.id === product.id)
+  if (idx === -1) return null
+
+  const item = items.value[idx]
+  const newQuantity = floatFix(item.quantity + amount)
+  if (newQuantity <= 0) {
+    removeItem(product)
+    return null
+  }
+
+  items.value[idx] = _calcProductCarted(item, newQuantity)
+  return items.value[idx]
+}
+
+function decrementItem(
+  product: Product,
+  amount: number = product.step || 1
+): ProductCarted | null {
+  return incrementItem(product, -amount)
+}
+
+function removeItem(product: Product): void {
+  items.value = items.value.filter((el) => el.id !== product.id)
+}
+
+function _calcProductCarted(product: Product, quantity: number): ProductCarted {
+  const price = Math.round(quantity * product.price)
+  const discount = Math.round(calcDiscount(price, product, quantity))
+  const discounted = Math.round(price - discount)
 
   return {
-    items: computed(() => store.getters['cart/items']),
-    total: computed(() => store.getters['cart/total']),
+    ...product,
+    quantity,
+    priceBeforeDiscount: price,
+    priceDiscount: discount,
+    priceAfterDiscount: discounted,
+  }
+}
 
-    addItem: (product: Product) => {
-      store.commit('cart/addItem', product)
-    },
+function _calcCartTotal(products: ProductCarted[]): CartTotal {
+  const initial: CartTotal = {
+    quantity: 0,
+    priceBeforeDiscount: 0,
+    priceDiscount: 0,
+    priceAfterDiscount: 0,
+  }
+  return products.reduce((total, product) => {
+    total.quantity += product.quantity
+    total.priceBeforeDiscount += product.priceBeforeDiscount
+    total.priceDiscount += product.priceDiscount
+    total.priceAfterDiscount += product.priceAfterDiscount
+    return total
+  }, initial)
+}
 
-    incrementItem: (product: Product | ProductCarted) => {
-      const { id, step = 1 } = product
-      store.commit('cart/incrementItemQuantity', { id, increment: step })
-    },
-
-    decrementItem: (product: Product | ProductCarted) => {
-      const { id, step = 1 } = product
-      store.commit('cart/incrementItemQuantity', { id, increment: -step })
-    },
-
-    removeItem: (product: Product | ProductCarted) => {
-      store.commit('cart/removeItem', product.id)
-    },
+export default function useCart(): {
+  items: DeepReadonly<Ref<ProductCarted[]>>
+  total: ComputedRef<CartTotal>
+  addItem: (id: Product) => ProductCarted
+  incrementItem: (product: Product, amount?: number) => ProductCarted | null
+  decrementItem: (product: Product, amount?: number) => ProductCarted | null
+  removeItem: (product: Product) => void
+} {
+  return {
+    items: readonly(items),
+    total,
+    addItem,
+    incrementItem,
+    decrementItem,
+    removeItem,
   }
 }
