@@ -2,6 +2,8 @@ import { Product, ProductCarted } from '@/types/types'
 import { computed, ComputedRef, DeepReadonly, readonly, Ref, ref } from 'vue'
 import { calcProductDiscount } from '@/helpers/calcProductDiscount'
 import { floatFix } from '@/helpers/numbers'
+import { CartDiscountStrategy } from '@/helpers/cart-discount/CartDiscountStrategy'
+import { promoCodeToCartDiscountStrategy } from '@/helpers/cart-discount/promoCodeToCartDiscountStrategy'
 
 interface CartTotal {
   quantity: number
@@ -12,12 +14,17 @@ interface CartTotal {
 
 const items = ref<ProductCarted[]>([])
 const total = computed<CartTotal>(() => _calcCartTotal(items.value))
+const promoCodes = ref<string[]>([])
+const cartDiscounts = ref<CartDiscountStrategy[]>([])
 
 function addItem(product: Product): ProductCarted {
   const incrementedItem = incrementItem(product, 1)
   if (incrementedItem) return incrementedItem
 
-  items.value.push(_calcProductCarted(product, 1))
+  const newItem = _calcItemDiscount(product, 1)
+  const newItems = items.value.concat(newItem)
+  items.value = _calcItemsDiscounts(newItems, cartDiscounts.value)
+
   return items.value[items.value.length - 1]
 }
 
@@ -35,7 +42,11 @@ function incrementItem(
     return null
   }
 
-  items.value[idx] = _calcProductCarted(item, newQuantity)
+  const newItem = _calcItemDiscount(item, newQuantity)
+  const newItems = Array.from(items.value)
+  newItems[idx] = newItem
+  items.value = _calcItemsDiscounts(newItems, cartDiscounts.value)
+
   return items.value[idx]
 }
 
@@ -47,10 +58,42 @@ function decrementItem(
 }
 
 function removeItem(product: Product): void {
-  items.value = items.value.filter((el) => el.id !== product.id)
+  const newItems = items.value.filter((el) => el.id !== product.id)
+  items.value = _calcItemsDiscounts(newItems, cartDiscounts.value)
 }
 
-function _calcProductCarted(product: Product, quantity: number): ProductCarted {
+function addPromoCode(promoCode: string): void {
+  if (promoCodes.value.includes(promoCode)) {
+    throw new RangeError('Such item already exists')
+  }
+  const newStrategy = promoCodeToCartDiscountStrategy(promoCode)
+
+  promoCodes.value.push(promoCode)
+  cartDiscounts.value.push(newStrategy)
+  items.value = _calcItemsDiscounts(items.value, cartDiscounts.value)
+}
+
+function removePromoCode(promoCode: string): void {
+  const idx = promoCodes.value.indexOf(promoCode)
+  if (idx === -1) return
+
+  promoCodes.value.splice(idx, 1)
+  cartDiscounts.value.splice(idx, 1)
+  items.value = _calcItemsDiscounts(items.value, cartDiscounts.value)
+}
+
+function _calcItemsDiscounts(
+  products: ProductCarted[],
+  discounts: CartDiscountStrategy[]
+): ProductCarted[] {
+  return products.map((product, idx, newProducts) => {
+    return discounts.reduce((newProduct, strategy) => {
+      return strategy.calcDiscount(newProduct, idx, newProducts)
+    }, product)
+  })
+}
+
+function _calcItemDiscount(product: Product, quantity: number): ProductCarted {
   const price = Math.round(quantity * product.price)
   const discount = Math.round(calcProductDiscount(price, product, quantity))
   const discounted = Math.round(price - discount)
@@ -87,6 +130,8 @@ export default function useCart(): {
   incrementItem: (product: Product, amount?: number) => ProductCarted | null
   decrementItem: (product: Product, amount?: number) => ProductCarted | null
   removeItem: (product: Product) => void
+  addPromoCode: (promoCode: string) => void
+  removePromoCode: (promoCode: string) => void
 } {
   return {
     items: readonly(items),
@@ -95,5 +140,7 @@ export default function useCart(): {
     incrementItem,
     decrementItem,
     removeItem,
+    addPromoCode,
+    removePromoCode,
   }
 }

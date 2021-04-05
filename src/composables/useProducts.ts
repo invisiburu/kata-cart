@@ -19,7 +19,6 @@ export default function useProducts(): {
 
   const loadProducts = async () => {
     products.value = await getProducts()
-    console.log(products.value)
   }
 
   return {

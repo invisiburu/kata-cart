@@ -1,17 +1,24 @@
 <template>
   <div class="promo-code-widget">
     <template v-if="isInputShown">
-      <form class="promo-code-widget__form" @submit.prevent="applyCode()">
+      <form class="promo-code-widget__form" @submit.prevent="applyCode(code)">
         <input
           class="promo-code-widget__form-input input-underlined"
           type="text"
-          v-model="code"
           placeholder="Promo code"
+          v-model="code"
+          @input="codeError && clearCodeError()"
         />
         <button class="promo-code-widget__form-btn btn-framed" type="submit">
           Apply
         </button>
       </form>
+
+      <template v-if="codeError">
+        <p class="promo-code-widget__error-msg">
+          {{ codeError }}
+        </p>
+      </template>
 
       <button class="promo-code-widget__toggle" @click="toggleInput()">
         <span class="promo-code-widget__toggle-txt"> Hide promo code </span>
@@ -29,13 +36,24 @@
 </template>
 
 <script lang="ts">
+import useCart from '@/composables/useCart'
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   setup() {
+    const { addPromoCode } = useCart()
+
     const code = ref('')
-    const applyCode = () => {
-      console.log(code.value)
+    const codeError = ref<string | null>('')
+    const applyCode = (promoCode: string) => {
+      try {
+        addPromoCode(promoCode)
+      } catch (error) {
+        codeError.value = error.message
+      }
+    }
+    const clearCodeError = () => {
+      codeError.value = null
     }
 
     const isInputShown = ref(false)
@@ -43,7 +61,14 @@ export default defineComponent({
       isInputShown.value = !isInputShown.value
     }
 
-    return { code, applyCode, isInputShown, toggleInput }
+    return {
+      code,
+      codeError,
+      applyCode,
+      clearCodeError,
+      isInputShown,
+      toggleInput,
+    }
   },
 })
 </script>
@@ -66,6 +91,12 @@ export default defineComponent({
 
 .promo-code-widget__form-btn {
   grid-area: button;
+}
+
+.promo-code-widget__error-msg {
+  margin-top: 0.4rem;
+  margin-bottom: 1.2rem;
+  color: var(--clr__red);
 }
 
 .promo-code-widget__toggle {

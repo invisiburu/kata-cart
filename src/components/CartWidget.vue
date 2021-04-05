@@ -44,9 +44,11 @@
       <div class="cart-widget__total">
         Total: {{ total.quantity }} items -
         <span>{{ total.priceAfterDiscount }}</span>
-        <span class="cr-g">
-          ({{ total.priceBeforeDiscount }} - {{ total.priceDiscount }})
-        </span>
+        <template v-if="total.priceDiscount > 0">
+          <span class="cr-g">
+            ({{ total.priceBeforeDiscount }} - {{ total.priceDiscount }})
+          </span>
+        </template>
       </div>
 
       <PromoCodeWidget class="cart-widget__promo-code" />
