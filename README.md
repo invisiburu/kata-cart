@@ -15,6 +15,7 @@ calculated within a cart.
 - three for a dollar (custom price for purchasing dedicated amount)
 - 10$ for 1 kilo (pricing for fractial amounts, like 0.25 kilo, 1.5 kilo)
 - Any second good -40%
+- Any second cheapest good -40%
 - Coupon discount for every product in cart
 
 # Installation and run

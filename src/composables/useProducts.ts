@@ -1,6 +1,14 @@
-import { calcDiscountLabel } from '@/helpers/calcDiscountLabel'
+import { calcProductDiscountLabel } from '@/helpers/calcProductDiscountLabel'
 import { Product } from '@/types/types'
 import { Ref, ref } from 'vue'
+
+async function getProducts(): Promise<Product[]> {
+  const products = <Product[]>(await import('@/assets/products.json')).default
+  return products.map((el) => {
+    el.discountLabel = calcProductDiscountLabel(el.discount)
+    return el
+  })
+}
 
 export default function useProducts(): {
   products: Ref<Product[]>
@@ -19,12 +27,4 @@ export default function useProducts(): {
     loadProducts,
     getProducts,
   }
-}
-
-async function getProducts(): Promise<Product[]> {
-  const products = <Product[]>(await import('@/assets/products.json')).default
-  return products.map((el) => {
-    el.discountLabel = calcDiscountLabel(el.discount)
-    return el
-  })
 }

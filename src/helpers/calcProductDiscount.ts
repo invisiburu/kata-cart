@@ -5,7 +5,7 @@ import {
 } from '@/types/discount'
 import { Product } from '@/types/types'
 
-export function calcDiscount(
+export function calcProductDiscount(
   price: number,
   product: Product,
   quantity: number
@@ -14,26 +14,26 @@ export function calcDiscount(
 
   switch (product.discount.type) {
     case 'static':
-      return calcDiscountStatic(price, product)
+      return _calcDiscStatic(price, product)
 
     case 'progressive':
-      return calcDiscountProgressive(price, product, quantity)
+      return _calcDiscProgressive(price, product, quantity)
 
     case 'oneFree':
-      return calcDiscountOneFree(product, quantity)
+      return _calcDiscOneFree(product, quantity)
 
     default:
       return 0
   }
 }
 
-function calcDiscountStatic(price: number, product: Product): number {
+function _calcDiscStatic(price: number, product: Product): number {
   const stg = <DiscountStrategyStatic>product.discount
   const percents = stg.var
   return price * percents
 }
 
-function calcDiscountProgressive(
+function _calcDiscProgressive(
   price: number,
   product: Product,
   quantity: number
@@ -48,7 +48,7 @@ function calcDiscountProgressive(
   return price * percents
 }
 
-function calcDiscountOneFree(product: Product, quantity: number): number {
+function _calcDiscOneFree(product: Product, quantity: number): number {
   const strategy = <DiscountStrategyOneFree>product.discount
   const vars = Array.isArray(strategy.var) ? strategy.var : [strategy.var]
   const [discountQty, occurrencesLimit = 0] = vars

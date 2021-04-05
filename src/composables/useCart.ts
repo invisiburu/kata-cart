@@ -1,6 +1,6 @@
 import { Product, ProductCarted } from '@/types/types'
 import { computed, ComputedRef, DeepReadonly, readonly, Ref, ref } from 'vue'
-import { calcDiscount } from '@/helpers/calcDiscount'
+import { calcProductDiscount } from '@/helpers/calcProductDiscount'
 import { floatFix } from '@/helpers/numbers'
 
 interface CartTotal {
@@ -52,7 +52,7 @@ function removeItem(product: Product): void {
 
 function _calcProductCarted(product: Product, quantity: number): ProductCarted {
   const price = Math.round(quantity * product.price)
-  const discount = Math.round(calcDiscount(price, product, quantity))
+  const discount = Math.round(calcProductDiscount(price, product, quantity))
   const discounted = Math.round(price - discount)
 
   return {
