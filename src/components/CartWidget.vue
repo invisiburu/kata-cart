@@ -48,7 +48,14 @@
           ({{ total.priceBeforeDiscount }} - {{ total.priceDiscount }})
         </span>
       </div>
-      <button class="btn-framed" type="button" @click="checkout()">
+
+      <PromoCodeWidget class="cart-widget__promo-code" />
+
+      <button
+        class="cart-widget__checkout-btn btn-framed"
+        type="button"
+        @click="checkout()"
+      >
         Checkout
       </button>
     </template>
@@ -61,8 +68,11 @@
 <script lang="ts">
 import useCart from '@/composables/useCart'
 import { defineComponent } from 'vue'
+import PromoCodeWidget from './PromoCodeWidget.vue'
 
 export default defineComponent({
+  components: { PromoCodeWidget },
+
   setup() {
     const { items, total, incrementItem, decrementItem, removeItem } = useCart()
 
@@ -103,7 +113,17 @@ export default defineComponent({
   border-top: 1px solid var(--clr__lightGray);
 }
 
+.cart-widget__promo-code {
+  margin-top: 1.6rem;
+  margin-bottom: 1.6rem;
+  max-width: 32rem;
+}
+
 .cart-widget__empty-txt {
   color: var(--clr__gray);
+}
+
+.cart-widget__checkout-btn {
+  margin-top: 1.6rem;
 }
 </style>

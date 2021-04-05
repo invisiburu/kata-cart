@@ -1,0 +1,31 @@
+@mixin chevron-art($rotate: 135deg, $translateY: 2px) {
+  &:after {
+    content: '';
+    position: absolute;
+    display: block;
+    height: 0.8rem;
+    width: 0.8rem;
+    border: solid currentColor;
+    border-width: 0 0 1px 1px;
+    transform: translateY($translateY) rotate($rotate);
+  }
+}
+
+i {
+  &.ico {
+    display: inline-flex;
+    width: 1.6rem;
+    height: 1.6rem;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &.ico__arrow-down {
+    @include chevron-art(-45deg, -2px);
+  }
+
+  &.ico__arrow-top {
+    @include chevron-art(135deg, 2px);
+  }
+}

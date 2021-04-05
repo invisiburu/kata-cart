@@ -2,17 +2,25 @@
   --clr__textDefault: #333333;
   --clr__gray: gray;
   --clr__lightGray: lightGray;
+  --clr__green: #42b983;
 }
 
 button {
   &.btn-underlined {
     padding: 0 0.4rem;
-    border-bottom: 2px solid currentColor;
+    border-bottom: 2px solid var(--clr__textDefault);
   }
 
   &.btn-framed {
     padding: 0.4rem 1.2rem;
-    border: 2px solid currentColor;
+    border: 2px solid var(--clr__textDefault);
+  }
+}
+
+input {
+  &.input-underlined {
+    border: none;
+    border-bottom: 2px solid var(--clr__textDefault);
   }
 }
 
