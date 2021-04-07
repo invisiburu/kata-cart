@@ -1,5 +1,6 @@
-import { CartDiscountStatic } from './CartDiscountStatic'
 import { CartDiscountStrategy } from './CartDiscountStrategy'
+import { CartDiscountStatic } from './CartDiscountStatic'
+import { CartDiscountThreshold } from './CartDiscountThreshold'
 
 export function promoCodeToCartDiscountStrategy(
   promoCode: string
@@ -16,6 +17,14 @@ export function promoCodeToCartDiscountStrategy(
   switch (base) {
     case 'STATIC':
       return new CartDiscountStatic('Promo', Number(args[0]), promoCode)
+
+    case 'THRESHOLD':
+      return new CartDiscountThreshold(
+        'Promo',
+        Number(args[0]),
+        Number(args[1]),
+        promoCode
+      )
 
     default:
       throw new RangeError(`Unknown promoCode! Got: ${promoCode}`)
