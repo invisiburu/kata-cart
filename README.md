@@ -8,6 +8,8 @@ calculated within a cart.
 
 Also practicing Vue3 + TS bundle.
 
+See the demo: https://invisiburu.github.io/kata-cart/
+
 ## Available discount programs:
 
 Per product:
@@ -29,7 +31,7 @@ Cart overall:
 Cart overall discounts can be applied by promo codes and on a
 configurable disable/enable basis.
 
-# Installation and run
+## Installation and run
 
 ```
 npm ci
