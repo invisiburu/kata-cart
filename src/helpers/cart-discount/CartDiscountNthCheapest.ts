@@ -68,22 +68,17 @@ export class CartDiscountNthCheapest implements CartDiscountStrategy {
 
     const cheapestIndexes: number[] = []
 
-    // let prevMinPrice = 0
     while (occurrences--) {
       let minPrice = products[0].priceBeforeDiscount
       let minIdx = 0
       for (let idx = 0; idx < products.length; idx++) {
-        const price = products[idx].priceBeforeDiscount
-        console.log('CURRENT:', price, minPrice)
-        // if (price < prevMinPrice) continue
         if (cheapestIndexes.includes(idx)) continue
+        const price = products[idx].priceBeforeDiscount
         if (price < minPrice) {
-          console.log('LESSER:', price)
           minPrice = price
           minIdx = idx
         }
       }
-      // prevMinPrice = minPrice
       cheapestIndexes.push(minIdx)
     }
 
