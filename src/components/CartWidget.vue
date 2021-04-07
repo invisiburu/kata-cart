@@ -41,7 +41,7 @@
       </div>
     </template>
     <template v-if="items && items.length > 0">
-      <div class="cart-widget__total">
+      <div class="cart-widget__total mtb-16">
         Total: {{ total.quantity }} items -
         <span>{{ total.priceAfterDiscount }}</span>
         <template v-if="total.priceDiscount > 0">
@@ -51,7 +51,8 @@
         </template>
       </div>
 
-      <PromoCodeWidget class="cart-widget__promo-code" />
+      <CartDiscountsWidget class="cart-widget__discounts mtb-16" />
+      <PromoCodeWidget class="cart-widget__promo-code mtb-16" />
 
       <button
         class="cart-widget__checkout-btn btn-framed"
@@ -71,9 +72,10 @@
 import useCart from '@/composables/useCart'
 import { defineComponent } from 'vue'
 import PromoCodeWidget from './PromoCodeWidget.vue'
+import CartDiscountsWidget from './CartDiscountsWidget.vue'
 
 export default defineComponent({
-  components: { PromoCodeWidget },
+  components: { PromoCodeWidget, CartDiscountsWidget },
 
   setup() {
     const { items, total, incrementItem, decrementItem, removeItem } = useCart()
@@ -109,15 +111,15 @@ export default defineComponent({
 }
 
 .cart-widget__total {
-  margin-top: 1.6rem;
-  margin-bottom: 1.6rem;
   padding-top: 0.8rem;
   border-top: 1px solid var(--clr__lightGray);
 }
 
+.cart-widget__discounts {
+  max-width: 32rem;
+}
+
 .cart-widget__promo-code {
-  margin-top: 1.6rem;
-  margin-bottom: 1.6rem;
   max-width: 32rem;
 }
 

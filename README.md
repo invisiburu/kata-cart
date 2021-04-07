@@ -22,6 +22,8 @@ Cart overall:
 - Any second good -40%
 - Any second cheapest good -40%
 
+Cart overall discounts can be applied with promo codes and on configurable basis
+
 # Installation and run
 
 ```

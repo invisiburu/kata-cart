@@ -4,9 +4,10 @@ import { CartDiscountStrategy } from './CartDiscountStrategy'
 
 export class CartDiscountStatic implements CartDiscountStrategy {
   label: string
+  promoCode?: string
   private _percents: number
 
-  constructor(sourceName: string, decimals: number) {
+  constructor(sourceName: string, decimals: number, promoCode?: string) {
     if (!sourceName || typeof sourceName !== 'string') {
       throw new TypeError(`sourceName should be a string! Got: ${sourceName}`)
     }
@@ -15,6 +16,7 @@ export class CartDiscountStatic implements CartDiscountStrategy {
     }
 
     this.label = this._calcLabel(sourceName, decimals)
+    this.promoCode = promoCode
     this._percents = floatFix(decimals * 0.01)
   }
 

@@ -14,7 +14,6 @@ interface CartTotal {
 
 const items = ref<ProductCarted[]>([])
 const total = computed<CartTotal>(() => _calcCartTotal(items.value))
-const promoCodes: string[] = []
 const cartDiscounts = ref<CartDiscountStrategy[]>([])
 
 function addItem(product: Product): ProductCarted {
@@ -62,21 +61,19 @@ function removeItem(product: Product): void {
 }
 
 function addPromoCode(promoCode: string): void {
-  if (promoCodes.includes(promoCode)) {
+  if (cartDiscounts.value.find((el) => el.promoCode === promoCode)) {
     throw new RangeError('Such item already exists')
   }
   const newStrategy = promoCodeToCartDiscountStrategy(promoCode)
 
-  promoCodes.push(promoCode)
   cartDiscounts.value.push(newStrategy)
   items.value = _calcDiscounts(items.value, cartDiscounts.value)
 }
 
 function removePromoCode(promoCode: string): void {
-  const idx = promoCodes.indexOf(promoCode)
+  const idx = cartDiscounts.value.findIndex((el) => el.promoCode === promoCode)
   if (idx === -1) return
 
-  promoCodes.splice(idx, 1)
   cartDiscounts.value.splice(idx, 1)
   items.value = _calcDiscounts(items.value, cartDiscounts.value)
 }
@@ -132,6 +129,7 @@ function _calcCartTotal(products: ProductCarted[]): CartTotal {
 export default function useCart(): {
   items: DeepReadonly<Ref<ProductCarted[]>>
   total: ComputedRef<CartTotal>
+  cartDiscounts: DeepReadonly<Ref<CartDiscountStrategy[]>>
   addItem: (id: Product) => ProductCarted
   incrementItem: (product: Product, amount?: number) => ProductCarted | null
   decrementItem: (product: Product, amount?: number) => ProductCarted | null
@@ -141,6 +139,7 @@ export default function useCart(): {
 } {
   return {
     items: readonly(items),
+    cartDiscounts: readonly(cartDiscounts),
     total,
     addItem,
     incrementItem,

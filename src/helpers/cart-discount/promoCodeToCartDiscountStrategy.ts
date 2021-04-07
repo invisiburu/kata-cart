@@ -15,7 +15,7 @@ export function promoCodeToCartDiscountStrategy(
 
   switch (base) {
     case 'STATIC':
-      return new CartDiscountStatic('Promo', Number(args[0]))
+      return new CartDiscountStatic('Promo', Number(args[0]), promoCode)
 
     default:
       throw new RangeError(`Unknown promoCode! Got: ${promoCode}`)
