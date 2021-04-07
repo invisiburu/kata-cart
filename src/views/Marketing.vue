@@ -73,9 +73,5 @@ export default defineComponent({
   justify-content: space-between;
   padding: 0.4rem 0.8rem;
   margin: 0 -0.8rem;
-
-  &:hover {
-    background-color: var(--clr__green02);
-  }
 }
 </style>
