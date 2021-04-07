@@ -1,5 +1,7 @@
 <template>
   <div class="marketing">
+    <h3 class="marketing__heading mb-16">Cart extra discounts:</h3>
+
     <div class="marketing__row">
       <span class="marketing__row-lbl">SALE -30%:</span>
       <label class="marketing__cb-wrp">
@@ -40,11 +42,16 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.marketing {
+  display: block;
+  max-width: 32rem;
+  margin: 2.4rem auto 0;
+}
+
 .marketing__row {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  max-width: 20rem;
 }
 </style>
