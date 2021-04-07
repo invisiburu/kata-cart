@@ -30,6 +30,10 @@ input {
   color: var(--clr__gray);
 }
 
+.mt-8 {
+  margin-top: 0.8rem;
+}
+
 .mt-16 {
   margin-top: 1.6rem;
 }
@@ -41,4 +45,9 @@ input {
 .mtb-16 {
   margin-top: 1.6rem;
   margin-bottom: 1.6rem;
+}
+
+.mtb-24 {
+  margin-top: 2.4rem;
+  margin-bottom: 2.4rem;
 }

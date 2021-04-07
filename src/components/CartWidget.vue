@@ -41,7 +41,7 @@
       </div>
     </template>
     <template v-if="items && items.length > 0">
-      <div class="cart-widget__total mtb-16">
+      <div class="cart-widget__total mt-8 mb-16">
         Total: {{ total.quantity }} items -
         <span>{{ total.priceAfterDiscount }}</span>
         <template v-if="total.priceDiscount > 0">
@@ -51,8 +51,8 @@
         </template>
       </div>
 
-      <CartDiscountsWidget class="cart-widget__discounts mtb-16" />
-      <PromoCodeWidget class="cart-widget__promo-code mtb-16" />
+      <CartDiscountsWidget class="cart-widget__discounts mtb-24" />
+      <PromoCodeWidget class="cart-widget__promo-code mtb-24" />
 
       <button
         class="cart-widget__checkout-btn btn-framed"

@@ -14,7 +14,7 @@
 
         <button
           v-if="discount.promoCode"
-          class="btn-framed"
+          class="btn-underlined"
           @click="removePromoCode(discount.promoCode)"
         >
           Revoke
@@ -48,5 +48,6 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: space-between;
+  min-height: 2.6rem;
 }
 </style>
