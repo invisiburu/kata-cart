@@ -29,13 +29,15 @@ function addItem(product: Product): ProductCarted {
 
 function incrementItem(
   product: Product,
-  amount: number = product.step || 1
+  amount: number = product.step || 1,
+  event?: MouseEvent
 ): ProductCarted | null {
   const idx = items.value.findIndex((el) => el.id === product.id)
   if (idx === -1) return null
 
+  const factor = event?.ctrlKey ? 10 : 1
   const item = items.value[idx]
-  const newQuantity = floatFix(item.quantity + amount)
+  const newQuantity = floatFix(item.quantity + amount * factor)
   if (newQuantity <= 0) {
     removeItem(product)
     return null
@@ -50,9 +52,10 @@ function incrementItem(
 
 function decrementItem(
   product: Product,
-  amount: number = product.step || 1
+  amount: number = product.step || 1,
+  event?: MouseEvent
 ): ProductCarted | null {
-  return incrementItem(product, -amount)
+  return incrementItem(product, -amount, event)
 }
 
 function removeItem(product: Product): void {

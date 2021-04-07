@@ -20,14 +20,14 @@
         <button
           class="cart-widget__item-btn btn-framed"
           type="button"
-          @click="decrementItem(item)"
+          @click="decrementItem(item, undefined, $event)"
         >
           -
         </button>
         <button
           class="cart-widget__item-btn btn-framed"
           type="button"
-          @click="incrementItem(item)"
+          @click="incrementItem(item, undefined, $event)"
         >
           +
         </button>
@@ -115,12 +115,9 @@ export default defineComponent({
   border-top: 1px solid var(--clr__lightGray);
 }
 
-.cart-widget__discounts {
-  max-width: 32rem;
-}
-
+.cart-widget__discounts,
 .cart-widget__promo-code {
-  max-width: 32rem;
+  max-width: 40rem;
 }
 
 .cart-widget__empty-txt {
