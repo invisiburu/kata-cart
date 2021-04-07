@@ -2,6 +2,7 @@ import { CartDiscountStrategy } from './CartDiscountStrategy'
 import { CartDiscountStatic } from './CartDiscountStatic'
 import { CartDiscountThreshold } from './CartDiscountThreshold'
 import { CartDiscountNth } from './CartDiscountNth'
+import { CartDiscountNthCheapest } from './CartDiscountNthCheapest'
 
 export function promoCodeToCartDiscountStrategy(
   promoCode: string
@@ -29,6 +30,14 @@ export function promoCodeToCartDiscountStrategy(
 
     case 'NTH':
       return new CartDiscountNth(
+        'Promo',
+        Number(args[0]),
+        Number(args[1]),
+        promoCode
+      )
+
+    case 'CHEAPEST':
+      return new CartDiscountNthCheapest(
         'Promo',
         Number(args[0]),
         Number(args[1]),

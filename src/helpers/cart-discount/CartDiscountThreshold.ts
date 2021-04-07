@@ -31,7 +31,11 @@ export class CartDiscountThreshold implements CartDiscountStrategy {
     this._applyAfter = applyAfter
   }
 
-  calcDiscount(product: ProductCarted, idx = 0, cart: ProductCarted[]): number {
+  calcDiscount(
+    product: ProductCarted,
+    idx: number,
+    cart: ProductCarted[]
+  ): number {
     if (idx === 0) this._curCartPrice = this._calcCartPrice(cart)
     if (this._curCartPrice < this._applyAfter) return 0
     return product.priceBeforeDiscount * this._percents

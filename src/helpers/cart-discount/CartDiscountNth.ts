@@ -30,7 +30,7 @@ export class CartDiscountNth implements CartDiscountStrategy {
     this._everyNth = everyNth
   }
 
-  calcDiscount(product: ProductCarted, idx = 0): number {
+  calcDiscount(product: ProductCarted, idx: number): number {
     if ((idx + 1) % this._everyNth !== 0) return 0
     return product.priceBeforeDiscount * this._percents
   }

@@ -27,6 +27,10 @@
       <span class="marketing__row-lbl">NTH_2_40</span>
       <span class="marketing__row-val"> -40% (every 2nd) </span>
     </div>
+    <div class="marketing__row">
+      <span class="marketing__row-lbl">CHEAPEST_3_20</span>
+      <span class="marketing__row-val"> -20% (every 3rd cheapest) </span>
+    </div>
   </div>
 </template>
 
