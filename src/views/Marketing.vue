@@ -13,6 +13,12 @@
         <span class="marketing__cb-lbl">Enabled</span>
       </label>
     </div>
+
+    <h4 class="marketing__heading mtb-16">Promo codes:</h4>
+    <div class="marketing__row">
+      <span class="marketing__row-lbl">STATIC_10</span>
+      <span class="marketing__row-val"> -10% discount </span>
+    </div>
   </div>
 </template>
 
@@ -41,7 +47,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .marketing {
   display: block;
   max-width: 32rem;
@@ -53,5 +59,11 @@ export default defineComponent({
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding: 0.4rem 0.8rem;
+  margin: 0 -0.8rem;
+
+  &:hover {
+    background-color: var(--clr__green02);
+  }
 }
 </style>
