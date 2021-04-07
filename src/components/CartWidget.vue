@@ -80,7 +80,9 @@ export default defineComponent({
   setup() {
     const { items, total, incrementItem, decrementItem, removeItem } = useCart()
 
-    const checkout = () => console.log('CHECKOUT')
+    const checkout = () => {
+      alert('Please purchase the "Checkout" DLC to checkout your products!')
+    }
 
     return { items, total, incrementItem, decrementItem, removeItem, checkout }
   },
