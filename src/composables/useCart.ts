@@ -65,17 +65,30 @@ function addPromoCode(promoCode: string): void {
     throw new RangeError('Such item already exists')
   }
   const newStrategy = promoCodeToCartDiscountStrategy(promoCode)
-
-  cartDiscounts.value.push(newStrategy)
-  items.value = _calcDiscounts(items.value, cartDiscounts.value)
+  addCartDiscount(newStrategy)
 }
 
 function removePromoCode(promoCode: string): void {
-  const idx = cartDiscounts.value.findIndex((el) => el.promoCode === promoCode)
-  if (idx === -1) return
+  const item = cartDiscounts.value.find((el) => el.promoCode === promoCode)
+  if (!item) return
 
-  cartDiscounts.value.splice(idx, 1)
+  removeCartDiscount(item)
+}
+
+function addCartDiscount(item: CartDiscountStrategy): void {
+  cartDiscounts.value.push(item)
   items.value = _calcDiscounts(items.value, cartDiscounts.value)
+}
+
+function removeCartDiscount(item: CartDiscountStrategy): void {
+  cartDiscounts.value = cartDiscounts.value.filter(
+    (el) => el.label !== item.label
+  )
+  items.value = _calcDiscounts(items.value, cartDiscounts.value)
+}
+
+function findCartDiscount(label: string): CartDiscountStrategy | null {
+  return cartDiscounts.value.find((el) => el.label === label) || null
 }
 
 function _getItemPriced(product: Product, quantity: number): ProductCarted {
@@ -136,6 +149,9 @@ export default function useCart(): {
   removeItem: (product: Product) => void
   addPromoCode: (promoCode: string) => void
   removePromoCode: (promoCode: string) => void
+  addCartDiscount: (item: CartDiscountStrategy) => void
+  removeCartDiscount: (item: CartDiscountStrategy) => void
+  findCartDiscount: (label: string) => CartDiscountStrategy | null
 } {
   return {
     items: readonly(items),
@@ -147,5 +163,8 @@ export default function useCart(): {
     removeItem,
     addPromoCode,
     removePromoCode,
+    addCartDiscount,
+    removeCartDiscount,
+    findCartDiscount,
   }
 }
