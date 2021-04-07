@@ -9,6 +9,14 @@
   },
   {
     "id": "101",
+    "name": "Spear",
+    "price": 120,
+    "unit": "piece",
+    "step": 1,
+    "discount": null
+  },
+  {
+    "id": "102",
     "name": "Shield",
     "price": 200,
     "unit": "piece",
@@ -16,7 +24,7 @@
     "discount": { "type": "oneFree", "var": 3 }
   },
   {
-    "id": "102",
+    "id": "103",
     "name": "Helmet",
     "price": 180,
     "unit": "piece",
@@ -70,5 +78,19 @@
       "type": "progressive",
       "var": [[5, 0.3]]
     }
+  },
+  {
+    "id": "400",
+    "name": "Wooden Log of Wood",
+    "price": 60,
+    "unit": "piece",
+    "discount": null
+  },
+  {
+    "id": "401",
+    "name": "Brick",
+    "price": 20,
+    "unit": "piece",
+    "discount": null
   }
 ]
