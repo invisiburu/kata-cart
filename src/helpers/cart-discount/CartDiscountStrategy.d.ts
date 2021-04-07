@@ -6,5 +6,5 @@ export interface CartDiscountStrategy {
     product: ProductCarted,
     idx: number,
     products: ProductCarted[]
-  ) => ProductCarted
+  ) => number
 }

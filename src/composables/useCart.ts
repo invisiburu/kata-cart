@@ -14,16 +14,16 @@ interface CartTotal {
 
 const items = ref<ProductCarted[]>([])
 const total = computed<CartTotal>(() => _calcCartTotal(items.value))
-const promoCodes = ref<string[]>([])
+const promoCodes: string[] = []
 const cartDiscounts = ref<CartDiscountStrategy[]>([])
 
 function addItem(product: Product): ProductCarted {
   const incrementedItem = incrementItem(product, 1)
   if (incrementedItem) return incrementedItem
 
-  const newItem = _calcItemDiscount(product, 1)
+  const newItem = _getItemPriced(product, 1)
   const newItems = items.value.concat(newItem)
-  items.value = _calcItemsDiscounts(newItems, cartDiscounts.value)
+  items.value = _calcDiscounts(newItems, cartDiscounts.value)
 
   return items.value[items.value.length - 1]
 }
@@ -42,10 +42,9 @@ function incrementItem(
     return null
   }
 
-  const newItem = _calcItemDiscount(item, newQuantity)
   const newItems = Array.from(items.value)
-  newItems[idx] = newItem
-  items.value = _calcItemsDiscounts(newItems, cartDiscounts.value)
+  newItems[idx] = _getItemPriced(item, newQuantity)
+  items.value = _calcDiscounts(newItems, cartDiscounts.value)
 
   return items.value[idx]
 }
@@ -59,52 +58,59 @@ function decrementItem(
 
 function removeItem(product: Product): void {
   const newItems = items.value.filter((el) => el.id !== product.id)
-  items.value = _calcItemsDiscounts(newItems, cartDiscounts.value)
+  items.value = _calcDiscounts(newItems, cartDiscounts.value)
 }
 
 function addPromoCode(promoCode: string): void {
-  if (promoCodes.value.includes(promoCode)) {
+  if (promoCodes.includes(promoCode)) {
     throw new RangeError('Such item already exists')
   }
   const newStrategy = promoCodeToCartDiscountStrategy(promoCode)
 
-  promoCodes.value.push(promoCode)
+  promoCodes.push(promoCode)
   cartDiscounts.value.push(newStrategy)
-  items.value = _calcItemsDiscounts(items.value, cartDiscounts.value)
+  items.value = _calcDiscounts(items.value, cartDiscounts.value)
 }
 
 function removePromoCode(promoCode: string): void {
-  const idx = promoCodes.value.indexOf(promoCode)
+  const idx = promoCodes.indexOf(promoCode)
   if (idx === -1) return
 
-  promoCodes.value.splice(idx, 1)
+  promoCodes.splice(idx, 1)
   cartDiscounts.value.splice(idx, 1)
-  items.value = _calcItemsDiscounts(items.value, cartDiscounts.value)
+  items.value = _calcDiscounts(items.value, cartDiscounts.value)
 }
 
-function _calcItemsDiscounts(
-  products: ProductCarted[],
-  discounts: CartDiscountStrategy[]
-): ProductCarted[] {
-  return products.map((product, idx, newProducts) => {
-    return discounts.reduce((newProduct, strategy) => {
-      return strategy.calcDiscount(newProduct, idx, newProducts)
-    }, product)
-  })
-}
-
-function _calcItemDiscount(product: Product, quantity: number): ProductCarted {
+function _getItemPriced(product: Product, quantity: number): ProductCarted {
   const price = Math.round(quantity * product.price)
-  const discount = Math.round(calcProductDiscount(price, product, quantity))
-  const discounted = Math.round(price - discount)
 
   return {
     ...product,
     quantity,
     priceBeforeDiscount: price,
-    priceDiscount: discount,
-    priceAfterDiscount: discounted,
+    priceDiscount: 0,
+    priceAfterDiscount: price,
   }
+}
+
+function _calcDiscounts(
+  products: ProductCarted[],
+  discounts: CartDiscountStrategy[]
+): ProductCarted[] {
+  return products.map((product, idx) => {
+    const discProduct = calcProductDiscount(product.price, product)
+    const discCart = discounts.reduce((discount, strategy) => {
+      return discount + strategy.calcDiscount(product, idx, products)
+    }, 0)
+
+    const discount = Math.round(discProduct + discCart)
+    const afterDiscount = Math.round(product.priceBeforeDiscount - discount)
+    return {
+      ...product,
+      priceDiscount: discount,
+      priceAfterDiscount: afterDiscount,
+    }
+  })
 }
 
 function _calcCartTotal(products: ProductCarted[]): CartTotal {

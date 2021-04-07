@@ -18,18 +18,8 @@ export class CartDiscountStatic implements CartDiscountStrategy {
     this._percents = floatFix(decimals * 0.01)
   }
 
-  calcDiscount(product: ProductCarted): ProductCarted {
-    const discount = Math.round(product.priceBeforeDiscount * this._percents)
-
-    const item = {
-      ...product,
-      priceDiscount: Math.round(product.priceDiscount + discount),
-      priceAfterDiscount: Math.round(product.priceAfterDiscount - discount),
-    }
-
-    // TODO: if the discount applies do not apply it again
-
-    return item
+  calcDiscount(product: ProductCarted): number {
+    return product.priceBeforeDiscount * this._percents
   }
 
   private _calcLabel(sourceName: string, decimals: number) {
